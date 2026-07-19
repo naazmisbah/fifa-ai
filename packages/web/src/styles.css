@@ -1,0 +1,455 @@
+/*
+ * Matchday design system — "floodlit pitch".
+ *
+ * Dark-first: a deep green-cast night surface under cool floodlight text.
+ * The chromatic system IS the domain: Fruin LOS grades A–F carry the only
+ * strong color on screen (turf → amber → signal), and every colored mark is
+ * paired with its letter grade, so state is never color-alone.
+ *
+ * Status colors validated for CVD separation and surface contrast with the
+ * dataviz palette validator on both surfaces (all checks pass).
+ * Contrast ratios below are against the mode's surface.
+ */
+
+:root {
+  /* Dark surfaces (default) */
+  --surface: #0c1512;
+  --panel: #12201b;
+  --raised: #1b2e26;
+  --line: #2a4238;
+
+  /* Ink — #edf6f0 ≈ 16.5:1, #9db4a8 ≈ 7.4:1 on #0c1512 */
+  --ink: #edf6f0;
+  --ink-2: #9db4a8;
+
+  /* LOS status: turf (A–B) · amber (C–D) · signal (E–F). ≥ 3:1 on surface. */
+  --turf: #2f8a5c;
+  --amber: #b08718;
+  --signal: #c43b55;
+
+  --focus: #7fd4ff;
+
+  --pad: 1rem;
+  --radius: 6px;
+  --mono: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    /* Daylight pitch. Ink #14211b ≈ 15.6:1, #45584e ≈ 6.9:1 on #f2f5f1. */
+    --surface: #f2f5f1;
+    --panel: #ffffff;
+    --raised: #e4eae4;
+    --line: #c2d0c6;
+    --ink: #14211b;
+    --ink-2: #45584e;
+    --turf: #15703f;
+    --amber: #a38100;
+    --signal: #b12e4e;
+    --focus: #0b63c5;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--surface);
+  color: var(--ink);
+  font-family: system-ui, sans-serif;
+  line-height: 1.5;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Visually hidden, available to assistive technology. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---- Shell -------------------------------------------------------------- */
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  background: var(--ink);
+  color: var(--surface);
+  padding: 0.5rem 1rem;
+  z-index: 10;
+}
+.skip-link:focus {
+  left: 0.5rem;
+  top: 0.5rem;
+}
+
+.shell {
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  min-height: 100vh;
+}
+
+.rail {
+  border-right: 1px solid var(--line);
+  padding: var(--pad);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.brand {
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-size: 1rem;
+  margin: 0;
+}
+.brand small {
+  display: block;
+  color: var(--ink-2);
+  letter-spacing: 0.08em;
+  font-weight: 400;
+  font-size: 0.72rem;
+  margin-top: 0.25rem;
+}
+
+.rail nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.rail nav button {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  color: var(--ink-2);
+  font: inherit;
+  padding: 0.55rem 0.75rem;
+  cursor: pointer;
+}
+.rail nav button:hover {
+  background: var(--panel);
+  color: var(--ink);
+}
+.rail nav button[aria-current='page'] {
+  background: var(--raised);
+  color: var(--ink);
+  border-color: var(--line);
+  font-weight: 600;
+}
+
+.rail-foot {
+  margin-top: auto;
+  color: var(--ink-2);
+  font-size: 0.75rem;
+}
+
+.content {
+  padding: calc(var(--pad) * 1.5);
+  max-width: 64rem;
+  width: 100%;
+}
+
+@media (max-width: 719px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+  .rail {
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+  }
+  .rail nav ul {
+    flex-direction: row;
+  }
+  .rail-foot {
+    display: none;
+  }
+}
+
+/* ---- Shared pieces ------------------------------------------------------ */
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.72rem;
+  color: var(--ink-2);
+  margin: 0 0 0.25rem;
+}
+
+h2 {
+  margin: 0 0 1rem;
+  font-size: 1.35rem;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: var(--pad);
+}
+
+.mono {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+
+button.action {
+  background: var(--raised);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 600;
+  padding: 0.55rem 1.1rem;
+  cursor: pointer;
+}
+button.action:hover {
+  border-color: var(--ink-2);
+}
+button.action:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+input[type='text'],
+select {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--ink);
+  font: inherit;
+  padding: 0.55rem 0.75rem;
+}
+
+label {
+  font-size: 0.85rem;
+  color: var(--ink-2);
+}
+
+/* ---- LOS grade chips (letter always accompanies color) ------------------ */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.9rem;
+  height: 1.9rem;
+  border-radius: var(--radius);
+  border: 2px solid;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+.g-ab {
+  color: var(--turf);
+  border-color: var(--turf);
+}
+.g-cd {
+  color: var(--amber);
+  border-color: var(--amber);
+}
+.g-ef {
+  color: var(--signal);
+  border-color: var(--signal);
+}
+
+/* ---- Flow board: scoreboard + LOS ladder -------------------------------- */
+
+.scoreboard {
+  display: flex;
+  gap: var(--pad);
+  align-items: stretch;
+  margin-bottom: var(--pad);
+  flex-wrap: wrap;
+}
+
+.scoreboard .overall {
+  text-align: center;
+  padding: var(--pad) calc(var(--pad) * 1.5);
+}
+.scoreboard .overall .grade {
+  font-family: var(--mono);
+  font-size: 3.4rem;
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 0;
+}
+.scoreboard .overall .grade-caption {
+  margin: 0;
+}
+
+.scoreboard .actions {
+  flex: 1;
+  min-width: 16rem;
+}
+.scoreboard .actions ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+.scoreboard .actions li + li {
+  margin-top: 0.35rem;
+}
+
+.flow-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.flow-table caption {
+  text-align: left;
+  color: var(--ink-2);
+  font-size: 0.8rem;
+  padding-bottom: 0.5rem;
+}
+.flow-table th {
+  text-align: left;
+  color: var(--ink-2);
+  font-weight: 600;
+  border-bottom: 1px solid var(--line);
+  padding: 0.4rem 0.6rem 0.4rem 0;
+}
+.flow-table td {
+  border-bottom: 1px solid var(--line);
+  padding: 0.55rem 0.6rem 0.55rem 0;
+  vertical-align: middle;
+}
+
+/* The ladder: a thin track with Fruin band ticks; fill length = density. */
+.los-track {
+  position: relative;
+  background: var(--raised);
+  border-radius: 4px;
+  height: 10px;
+  min-width: 9rem;
+}
+.los-fill {
+  height: 100%;
+  border-radius: 4px;
+}
+.los-fill.g-ab {
+  background: var(--turf);
+}
+.los-fill.g-cd {
+  background: var(--amber);
+}
+.los-fill.g-ef {
+  background: var(--signal);
+}
+.los-tick {
+  position: absolute;
+  top: -2px;
+  width: 1px;
+  height: 14px;
+  background: var(--line);
+}
+
+/* ---- Concierge thread --------------------------------------------------- */
+
+.thread {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-height: 14rem;
+  max-height: 24rem;
+  overflow-y: auto;
+  padding: var(--pad);
+}
+
+.msg {
+  max-width: 85%;
+  padding: 0.6rem 0.85rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+}
+.msg.fan {
+  align-self: flex-end;
+  background: var(--raised);
+}
+.msg.guide {
+  align-self: flex-start;
+  background: var(--panel);
+}
+.msg .origin {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.ask-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: var(--pad);
+}
+.ask-form input {
+  flex: 1;
+}
+
+/* ---- Wayfinder ---------------------------------------------------------- */
+
+.way-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--pad);
+  align-items: end;
+  margin-bottom: var(--pad);
+}
+.way-form .field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.way-form .row-2 {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pad);
+  flex-wrap: wrap;
+}
+
+.route-steps {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+}
+.route-steps li + li {
+  margin-top: 0.3rem;
+}
+.route-meta {
+  display: flex;
+  gap: 1rem;
+  color: var(--ink-2);
+  font-size: 0.85rem;
+  margin-top: 0.75rem;
+}

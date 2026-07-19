@@ -1,0 +1,26 @@
+{
+  "name": "@matchday/core",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Pure, dependency-free domain logic for Matchday: crowd level-of-service analysis, graph wayfinding, and concierge intent classification.",
+  "license": "MIT",
+  "author": "aatifaqua",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "coverage": "vitest run --coverage"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "name": "@matchday/api",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Matchday API — Fastify service fronting Gemini with schema-validated routes, rate limiting, and a deterministic heuristic fallback.",
+  "license": "MIT",
+  "author": "aatifaqua",
+  "type": "module",
+  "main": "./dist/server.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@fastify/cors": "11.3.0",
+    "@fastify/helmet": "13.1.0",
+    "@fastify/rate-limit": "11.1.0",
+    "@fastify/type-provider-typebox": "6.1.0",
+    "@matchday/core": "*",
+    "@sinclair/typebox": "0.34.52",
+    "fastify": "5.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "26.1.1",
+    "tsx": "4.23.1"
+  }
+}

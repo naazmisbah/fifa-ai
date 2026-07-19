@@ -1,0 +1,15 @@
+{
+  "plugins": ["typescript", "oxc", "unicorn", "react"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn"
+  },
+  "rules": {
+    "react/rules-of-hooks": "error",
+    "react/exhaustive-deps": "error",
+    "react/react-in-jsx-scope": "off",
+    "no-console": "error",
+    "oxc/no-async-endpoint-handlers": "off"
+  },
+  "ignorePatterns": ["**/dist/**", "**/coverage/**", "**/node_modules/**"]
+}

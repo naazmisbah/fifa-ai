@@ -1,0 +1,34 @@
+{
+  "name": "matchday",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Matchday — FIFA 2026 stadium intelligence: multilingual concierge, crowd flow analysis, and step-free wayfinding.",
+  "license": "MIT",
+  "author": "aatifaqua",
+  "engines": {
+    "node": ">=22"
+  },
+  "workspaces": [
+    "packages/core",
+    "packages/api",
+    "packages/web"
+  ],
+  "scripts": {
+    "prepare": "git config core.hooksPath .githooks",
+    "lint": "oxlint",
+    "build:core": "npm run build -w @matchday/core",
+    "build:api": "npm run build -w @matchday/api",
+    "build:web": "npm run build -w @matchday/web",
+    "build": "npm run build:core && npm run build:api && npm run build:web",
+    "typecheck": "npm run build:core && npm run typecheck -w @matchday/api && npm run typecheck -w @matchday/web",
+    "test": "npm run build:core && npm run test -w @matchday/core && npm run test -w @matchday/api && npm run test -w @matchday/web",
+    "coverage": "npm run build:core && npm run coverage -w @matchday/core && npm run coverage -w @matchday/api && npm run coverage -w @matchday/web",
+    "verify": "npm run lint && npm run typecheck && npm run coverage && npm run build"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "4.1.10",
+    "oxlint": "1.74.0",
+    "typescript": "7.0.2",
+    "vitest": "4.1.10"
+  }
+}
